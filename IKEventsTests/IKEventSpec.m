@@ -52,6 +52,7 @@ beforeEach(^{
 });
 
 describe(@"IKEvent", ^{
+    
     it(@"should fire the block when notified", ^{
         __block BOOL fired = NO;
         TestObject *obj = [TestObject new];
@@ -122,6 +123,19 @@ describe(@"IKEvent", ^{
         notify(obj.event);
         expect(count).will.equal(2);
     });
+    it(@"should not forward the event when forwarding is removed", ^{
+        __block NSInteger count = 0;
+        TestObject *obj = [TestObject new];
+        [obj.event addForwarding:handler.forwardedEvent];
+        [handler.forwardedEvent add:self block:^{
+            count++;
+        }];
+        notify(obj.event);
+        notify(obj.event);
+        [obj.event removeForwarding:handler.forwardedEvent];
+        notify(obj.event);
+        expect(count).will.equal(2);
+    });
     it(@"should not fire once a all targets are removed", ^{
         __block NSInteger count = 0;
         TestObject *obj = [TestObject new];
@@ -134,7 +148,6 @@ describe(@"IKEvent", ^{
         notify(obj.event);
         expect(count).will.equal(2);
     });
-    
     it(@"should not fire when the target is deallocated", ^{
         __block NSInteger count = 0;
         TestObject *obj = [TestObject new];
@@ -147,6 +160,7 @@ describe(@"IKEvent", ^{
         notify(obj.event);
         expect(count).will.equal(2);
     });    
+     
 });
 
 SpecEnd

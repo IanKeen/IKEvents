@@ -53,6 +53,13 @@
 -(void)remove:(id)target;
 
 /**
+ *  Stops forwarding notifications from this event being forwarded to another event
+ *
+ *  @param event event that this event should no longer forward to
+ */
+-(void)removeForwarding:(IKEvent *)event;
+
+/**
  *  Unsubscribes all objects from this event
  */
 -(void)removeAllTargetsAndForwarding;

@@ -87,6 +87,9 @@ void notifyOnMainQueueWithoutDeadlocking(dispatch_block_t block) {
 -(void)remove:(id)target {
     [self.handlers removeTarget:target];
 }
+-(void)removeForwarding:(IKEvent *)event {
+    [self.forwarding removeObject:event];
+}
 -(void)removeAllTargetsAndForwarding {
     [self.handlers removeAllObjects];
     [self.forwarding removeAllObjects];
