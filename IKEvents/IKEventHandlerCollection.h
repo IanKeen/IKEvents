@@ -1,3 +1,10 @@
+//
+//  IKEventHandlerCollection
+//
+//  Created by Ian Keen on 2/06/2015.
+//  Copyright (c) 2015 IanKeen. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 
 typedef void (^eventHandlerEnumerateFunction)(id target, SEL selector, id block);
