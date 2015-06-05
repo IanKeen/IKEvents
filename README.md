@@ -8,6 +8,8 @@ iOS provides a few great ways for one object to notify others, lets have a look.
 ### KVO
 A fairly good way to get notified of changes to a property, multiple subscribers and you can even get an initial value when you subscribe which is super handy on MVVM setups. There are a couple of downsides.. firstly you can only get notified of a change in the properties value, nothing else and secondly (also a huge oversight IMHO) is that there is no built in way to keep track of subscribers, if you fail to unsubscribe you'll cause leaks but if you try to unsubscribe when your not actualy subscribed you'll cause an exception.. Its not all bad though.. Facebook have a fantastic [KVOController](https://github.com/facebook/KVOController) which takes care of most of that for you!. 
 
+It's also worth noting that KVO hasn't even made it into Swift *natively* yet! (you still need to make your Swift classes basically Objective-C ones in disguise.. hmm..)
+
 ### NSNotificationCenter
 Arguably a bit of an improvement over KVO, NSNotificationCenter provides all the pros of KVO except that it takes away the ability to get an initial value. It improves on KVO, however, by providing a built in way to keep track of wether you've subscribed *and* NSNotifications can send extra bits of data along for you to consume, after doing a quick search I came across [this](https://github.com/onmyway133/FTGNotificationController) repo that appears to modify KVOController to handle NSNotificationCenter subscribers lifecycle for you.
 
