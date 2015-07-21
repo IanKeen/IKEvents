@@ -141,7 +141,7 @@ Pull Requests are welcome!
 
 If you use this in a project I would love to hear about it!..
 
-Shoutout to the amazing [PromiseKit](http://promisekit.org/) whose `NSMethodSignatureForBlock` implementation I borrowed, also 
+Shoutout to the amazing [PromiseKit](http://promisekit.org/) whose `NSMethodSignatureForBlock` implementation I borrowed
 
 ### Contact
 I'm usually hanging out on [iOS Developers](http://ios-developers.io/). You should check them out!
