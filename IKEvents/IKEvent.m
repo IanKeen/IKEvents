@@ -15,6 +15,9 @@
 @property (nonatomic, strong) NSMutableArray *forwarding;
 @end
 
+static inline id nullCheck(id value) { return (value ?: [NSNull null]); }
+static inline id nullToNil(id value) { return ([value isKindOfClass:[NSNull class]] ? nil : value); }
+
 void notifyOnMainQueueWithoutDeadlocking(dispatch_block_t block) {
     if ([NSThread isMainThread]) {
         block();
@@ -53,11 +56,11 @@ void notifyOnMainQueueWithoutDeadlocking(dispatch_block_t block) {
     NSMethodSignature *signature = NSMethodSignatureForBlock(block);
     switch (signature.numberOfArguments - 1) {
         case 0: ((void(^)(void))block)(); break;
-        case 1: ((void(^)(id))block)(arguments[0]); break;
-        case 2: ((void(^)(id, id))block)(arguments[0], arguments[1]); break;
-        case 3: ((void(^)(id, id, id))block)(arguments[0], arguments[1], arguments[2]); break;
-        case 4: ((void(^)(id, id, id, id))block)(arguments[0], arguments[1], arguments[2], arguments[3]); break;
-        case 5: ((void(^)(id, id, id, id, id))block)(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4]); break;
+        case 1: ((void(^)(id))block)(nullToNil(arguments[0])); break;
+        case 2: ((void(^)(id, id))block)(nullToNil(arguments[0]), nullToNil(arguments[1])); break;
+        case 3: ((void(^)(id, id, id))block)(nullToNil(arguments[0]), nullToNil(arguments[1]), nullToNil(arguments[2])); break;
+        case 4: ((void(^)(id, id, id, id))block)(nullToNil(arguments[0]), nullToNil(arguments[1]), nullToNil(arguments[2]), nullToNil(arguments[3])); break;
+        case 5: ((void(^)(id, id, id, id, id))block)(nullToNil(arguments[0]), nullToNil(arguments[1]), nullToNil(arguments[2]), nullToNil(arguments[3]), nullToNil(arguments[4])); break;
             
         default:
             [NSException raise:NSStringFromClass([self class]) format:@"%@ arguments are not supported", @(signature.numberOfArguments)];
@@ -70,7 +73,9 @@ void notifyOnMainQueueWithoutDeadlocking(dispatch_block_t block) {
     invocation.target = target;
     invocation.selector = selector;
     [arguments enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [invocation setArgument:&obj atIndex:idx + 2];
+        if (![obj isKindOfClass:[NSNull class]]) {
+            [invocation setArgument:&obj atIndex:idx + 2];
+        }
     }];
     [invocation invoke];
 }
@@ -103,8 +108,6 @@ void notifyOnMainQueueWithoutDeadlocking(dispatch_block_t block) {
 }
 @end
 
-static inline id nullCheck(id value) { return (value ?: [NSNull null]); }
-
 __attribute__((overloadable)) void notify(IKEvent *event) {
     [event notify:0 values:nil];
 }
@@ -123,4 +126,3 @@ __attribute__((overloadable)) void notify(IKEvent *event, id arg1, id arg2, id a
 __attribute__((overloadable)) void notify(IKEvent *event, id arg1, id arg2, id arg3, id arg4, id arg5) {
     [event notify:5 values:@[nullCheck(arg1), nullCheck(arg2), nullCheck(arg3), nullCheck(arg4), nullCheck(arg5)]];
 }
-
