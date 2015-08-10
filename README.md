@@ -111,7 +111,7 @@ Sometimes you may have an intermediary object that needs to send an event on to 
 Now anytime `event` is fired `myEvent` will be fired with the same parameters (if any).
 
 ## Unsubscribing from IKEvents
-When you are finished with an event and you don't want to be notified anymore simply call `unsubscribeFrom:`:
+When you are finished with an event and you don't want to be notified anymore there are a number of ways to stop listening:
 ```objectivec
 -(void)unsubscribeFrom:(IKEvent *)evvent {
 	//stop receiving notifications about this event
