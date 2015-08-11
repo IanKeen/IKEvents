@@ -5,7 +5,7 @@ A basic pub/sub eventing mechanism that handles the subscribers lifecycle for yo
 ## Existing pub/sub mechanisms
 iOS provides a few great ways for one object to notify others, lets have a look...
 
-### KVO
+### KVOt
 A fairly good way to get notified of changes to a property, multiple subscribers and you can even get an initial value when you subscribe which is super handy on MVVM setups. There are a couple of downsides... firstly you can only get notified of a change in the property's value, nothing else; and secondly (also a huge oversight IMHO) is that there is no built in way to keep track of subscribers. If you fail to unsubscribe you'll cause leaks but if you try to unsubscribe when you're not actualy subscribed you'll cause an exception... Its not all bad though... Facebook have a fantastic [KVOController](https://github.com/facebook/KVOController) which takes care of most of that for you!
 
 It's also worth noting that KVO hasn't even made it into Swift *natively* yet! (you still need to make your Swift classes basically Objective-C ones in disguise... hmm...)
@@ -33,7 +33,7 @@ So it looks like we have a range of ways to handle events... why would we need a
     return self;
 }
 
--(void)methodThatTiggersEvent {
+-(void)methodThatTriggersEvent {
 	/* some misc code.. */
     notify(self.myEvent, someParameter);
 }
