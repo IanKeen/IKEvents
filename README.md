@@ -113,7 +113,7 @@ Now anytime `event` is fired `myEvent` will be fired with the same parameters (i
 ## Unsubscribing from IKEvents
 When you are finished with an event and you don't want to be notified anymore there are a number of ways to stop listening:
 ```objectivec
--(void)unsubscribeFrom:(IKEvent *)evvent {
+-(void)unsubscribeFrom:(IKEvent *)event {
 	//stop receiving notifications about this event
 	[event remove:self];
     
